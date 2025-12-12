@@ -9,7 +9,7 @@ class Logic(QMainWindow, Ui_MainWindow):
     """Main Application Window
 
     Handles user input, account creations, and transactions"""
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
 
@@ -27,12 +27,12 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.pushButton_set_balance.clicked.connect(self.set_balance)
         self.listWidget_accounts.itemClicked.connect(self.select_account)
 
-    def select_account(self, item: QListWidgetItem):
+    def select_account(self, item: QListWidgetItem) -> None:
         """Sets the current account in accordance with user selection"""
         self.selected_account = item.data(QtCore.Qt.ItemDataRole.UserRole)
         self.update_account_view()
 
-    def update_account_list(self):
+    def update_account_list(self) -> None:
         """Refreshes the account display with current account information"""
         self.listWidget_accounts.clear()
         for acc in self.accounts:
@@ -44,7 +44,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             item.setForeground(QtGui.QBrush(color))
             self.listWidget_accounts.addItem(item)
 
-    def update_account_view(self):
+    def update_account_view(self) -> None:
         """Sets the account display with account information for selected account"""
         self.model.clear()
         if not self.selected_account:
@@ -59,7 +59,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             index = self.model.index(self.model.rowCount() - 1, 0)
             self.listView_updates.scrollTo(index)
 
-    def create_account(self):
+    def create_account(self) -> None:
         """Creates an account using the Account class from the accounts file"""
         name, ok = QInputDialog.getText(self, "Create Account", "Enter name:")
         if ok and name:
@@ -68,7 +68,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.accounts.append(acc)
             self.update_account_list()
 
-    def create_saving_account(self):
+    def create_saving_account(self) -> None:
         """Creates an account using the SavingAccount class from the accounts file"""
         name, ok = QInputDialog.getText(self, "Create SavingAccount", "Enter name:")
         if ok and name:
@@ -77,7 +77,7 @@ class Logic(QMainWindow, Ui_MainWindow):
             self.accounts.append(acc)
             self.update_account_list()
 
-    def deposit(self):
+    def deposit(self) -> None:
         """Calls the deposit function from the accounts file and updates the account display"""
         if not self.selected_account:
             QMessageBox.warning(self, "Error", "Please select an account first")
@@ -93,7 +93,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.update_account_list()
         self.update_account_view()
 
-    def withdraw(self):
+    def withdraw(self) -> None:
         """Calls the withdraw function from the accounts file and updates the account display"""
         if not self.selected_account:
             QMessageBox.warning(self, "Error", "Please select an account first")
@@ -112,7 +112,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.update_account_list()
         self.update_account_view()
 
-    def set_balance(self):
+    def set_balance(self) -> None:
         """Sets the balance of the selected account"""
         if not self.selected_account:
             QMessageBox.warning(self, "Error", "Please select an account first")
@@ -137,7 +137,7 @@ class Logic(QMainWindow, Ui_MainWindow):
         self.update_account_list()
         self.update_account_view()
 
-    def delete_account(self):
+    def delete_account(self) -> None:
         """Removes the selected account from the account list"""
         if not self.selected_account:
             QMessageBox.warning(self, "Error", "Please select an account first")
@@ -152,14 +152,14 @@ class LoginDialog(QDialog, Ui_Dialog):
     """Login Window
 
     Validates a username and password"""
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.setupUi(self)
 
         self.pushButton_login.clicked.connect(self.validate)
         self.pushButton_cancel.clicked.connect(self.reject)
 
-    def validate(self):
+    def validate(self) -> None:
         """Checks to make sure the username and password are valid"""
 
         username = self.lineEdit_username.text().strip()

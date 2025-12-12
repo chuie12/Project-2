@@ -8,13 +8,13 @@ Logic to apply interest is also included, but only applies to the Saving Account
 
 class Account:
     """Creates a standard account with the ability to deposit, withdraw, set a balance, set a name, get the balance, and get the name"""
-    def __init__(self, name, balance = 0):
+    def __init__(self, name: str, balance: float = 0.0) -> None:
         self.__name = name
         self.__balance = balance
         self.set_balance(self.__balance)
         self.__history = []
 
-    def deposit(self, amount):
+    def deposit(self, amount: float) -> bool:
         """Deposit a positive amount into the account
         :param amount: The amount to deposit
         :return: True if deposit was successful, False otherwise
@@ -26,7 +26,7 @@ class Account:
         else:
             return False
 
-    def withdraw(self, amount):
+    def withdraw(self, amount: float) -> bool:
         """Withdraw a positive amount from the account if funds are available
         :param amount: The amount to withdraw
         :return: True if withdraw was successful, False otherwise"""
@@ -39,15 +39,15 @@ class Account:
         else:
             return False
 
-    def get_balance(self):
+    def get_balance(self) -> float:
         """Get the balance of the account"""
         return self.__balance
 
-    def get_name(self):
+    def get_name(self) -> str:
         """Get the name of the account"""
         return self.__name
 
-    def set_balance(self, value):
+    def set_balance(self, value: float) -> None:
         """Set the balance of the account to a non-negative number
         :param value: The balance to set"""
         if value < 0:
@@ -56,27 +56,27 @@ class Account:
         else:
             self.__balance = value
 
-    def set_name(self, value):
+    def set_name(self, value: str) -> None:
         """Set the name of the account"""
         self.__name = value
 
-    def __str__(self):
-        return f'Account name: {self.get_name()}, Account balance: {self.get_balance():.2f}'
+    def __str__(self) -> str:
+        return f'Account name: {self.get_name()}, Account balance: {self.get_balance():.2f}' #holdover code from lab
 
 class SavingAccount(Account):
     """An account with a minimum balance and an interest accrual function"""
-    minimum = 100
-    rate = 0.02
+    minimum: float = 100
+    rate: float = 0.02
 
-    def __init__(self, name):
+    def __init__(self, name: str) -> None:
         super().__init__(name, SavingAccount.minimum)
         self.__deposit_count = 0
 
-    def apply_interest(self):
+    def apply_interest(self) -> None:
         """Applies the interest accrual function to the saving account"""
         Account.set_balance(self, (Account.get_balance(self) * (1 + self.rate)))
 
-    def deposit(self, amount):
+    def deposit(self, amount: float) -> bool:
         """Deposit a positive amount into the account. Once five deposits are made the apply_interest function is called
         :param amount: The amount to deposit
         :return: True if deposit was successful, False otherwise"""
@@ -89,7 +89,7 @@ class SavingAccount(Account):
         else:
             return False
 
-    def withdraw(self, amount):
+    def withdraw(self, amount: float) -> bool:
         """Withdraw a positive amount from the account if funds are available and the balance would not drop below the minimum
         :param amount: The amount to withdraw
         :return: True if withdraw was successful, False otherwise"""
@@ -101,7 +101,7 @@ class SavingAccount(Account):
         else:
             return False
 
-    def set_balance(self, value):
+    def set_balance(self, value: float) -> None:
         """Set the balance of the account to a non-negative number
         :param value: The balance to set"""
         if value < self.minimum:
@@ -109,5 +109,5 @@ class SavingAccount(Account):
         else:
             Account.set_balance(self, value)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'SAVING ACCOUNT: ' + super().__str__()
